@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nikol.AI - Обо мне</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .about-card{
+        background: var(--bg-white);
+        border: 1px solid var(--border-gray);
+        border-radius: 12px;
+        padding: 1rem;
+        cursor: pointer;
+        transition: transform .1s ease, box-shadow .1s ease;
+      }
+      .about-card:hover{
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,.06);
+      }
+      .about-card h3{ margin: 0 0 .35rem 0; }
+      .about-card p{ margin: 0; color: var(--text-gray); }
+      #aboutModalMedia img{
+        width: 110px; height: 110px; object-fit: cover; border-radius: 8px;
+        border: 1px solid var(--border-gray);
+      }
+      #aboutModalMedia img + img{ margin-left: .25rem; }
+      body.about-modal-open{ overflow: hidden; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">nikolaykruzhilin</div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link" data-key="nav_home" data-page="home">Главная</a></li>
+                    <li><a href="cv.html" class="nav-link" data-key="nav_cv" data-page="cv">Резюме</a></li>
+                    <li><a href="projects.html" class="nav-link" data-key="nav_projects" data-page="projects">Проекты</a></li>
+                    <li><a href="about.html" class="nav-link active" data-key="nav_about" data-page="about">Обо мне</a></li>
+                    <li><a href="contact.html" class="nav-link" data-key="nav_contact" data-page="contact">Контакты</a></li>
+                </ul>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="ru">RU</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="zh">中</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="content-section page active">
+                <h1 data-key="about_title">Обо мне</h1>
+                <p data-key="about_paragraph" style="margin-top:1rem; color:var(--text-gray); line-height:1.6;"></p>
+
+                <div class="project-grid" style="margin-top:1.5rem;">
+
+                    <!-- Karate -->
+                    <div class="about-card"
+                         data-media='[
+                           {"type":"image","src":"imgs/karate1.jpg","alt":"Karate 1"},
+                           {"type":"image","src":"imgs/karate2.jpg","alt":"Karate 2"},
+                           {"type":"image","src":"imgs/karate3.jpg","alt":"Karate 3"}
+                         ]'>
+                        <h3 data-key="about_card_1_title">Карате</h3>
+                        <p data-key="about_card_1_desc" data-format="html">
+                          Мой путь в карате начался.<br><a href="http://goju.tomsk.ru/%d0%b0%d1%80%d1%85%d0%b8%d0%b2/2009-2013/" target="_blank" rel="noopener noreferrer">Ссылка на сайт</a> в раннем возрасте. Я достиг 2-го дана, звание КМС и стал чемпионом мира по версии IMGKA.<br>
+                          <a href="http://goju.tomsk.ru/%d0%b0%d1%80%d1%85%d0%b8%d0%b2/2009-2013/" target="_blank" rel="noopener noreferrer">Подробнее здесь</a>
+                        </p>
+                    </div>
+
+                    <!-- Street photography -->
+                    <div class="about-card"
+                         data-media='[
+                           {"type":"image","src":"imgs/street1.jpg","alt":"Street 1"},
+                           {"type":"image","src":"imgs/street2.jpg","alt":"Street 2"},
+                           {"type":"image","src":"imgs/street3.jpg","alt":"Street 3"},
+                           {"type":"image","src":"imgs/street4.jpg","alt":"Street 4"},
+                           {"type":"image","src":"imgs/street5.jpg","alt":"Street 5"},
+                           {"type":"image","src":"imgs/street6.jpg","alt":"Street 6"},
+                           {"type":"image","src":"imgs/street7.jpg","alt":"Street 7"},
+                           {"type":"image","src":"imgs/street8.jpg","alt":"Street 8"},
+                           {"type":"image","src":"imgs/street9.jpg","alt":"Street 9"},
+                           {"type":"image","src":"imgs/street10.jpg","alt":"Street 10"}
+                         ]'>
+                        <h3 data-key="about_card_2_title">Уличная фотография</h3>
+                        <p data-key="about_card_2_desc">Увлечение уличной фотографией позволяет мне захватывать моменты повседневной жизни. Вот некоторые из моих лучших работ.</p>
+                    </div>
+
+                    <!-- Teaching -->
+                    <div class="about-card" data-media='[]'>
+                        <h3 data-key="about_card_3_title">Преподавание</h3>
+                        <p data-key="about_card_3_desc" data-format="html">
+                          Провожу курсы по фотографии и кинематографии, помогая другим развивать свои творческие навыки.<br>
+                          <a href="https://drive.google.com/file/d/1nT3mK1JcWLR3qKYz8srBitZair1Zzmep/view" target="_blank" rel="noopener noreferrer">Посмотреть материалы</a>
+                        </p>
+                    </div>
+
+                    <!-- Volunteering -->
+                    <div class="about-card" data-media='[]'>
+                        <h3 data-key="about_card_4_title">Волонтерство</h3>
+                        <p data-key="about_card_4_desc" data-format="html">
+                          Я регулярно помогаю в приютах для животных и ухаживаю за бездомными животными.<br><a href="https://www.youtube.com/watch?v=xkOxdTTbjfg" target="_blank" rel="noopener noreferrer">Ссылка на видео</a><br>
+                          <a href="https://www.youtube.com/watch?v=xkOxdTTbjfg" target="_blank" rel="noopener noreferrer">Смотреть видео</a>
+                        </p>
+                    </div>
+
+                    <!-- #createtodonate -->
+                    <div class="about-card" data-media='[]'>
+                        <h3 data-key="about_card_5_title">#createtodonate</h3>
+                        <p data-key="about_card_5_desc">#createtodonate - проект, где творчество используется для сбора средств на благотворительность.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- About Modal -->
+    <div id="aboutModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1000; justify-content:center; align-items:center;">
+        <div style="background:var(--bg-white); border:1px solid var(--border-gray); border-radius:12px; padding:2rem; max-width: 900px; width:92%; position:relative; box-shadow:0 4px 16px rgba(0,0,0,.12);">
+            <button id="aboutCloseModal" aria-label="Close" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-gray)">&times;</button>
+            <h2 id="aboutModalTitle" style="margin-top:0;"></h2>
+            <p id="aboutModalDescription" style="margin:.25rem 0 1rem 0;"></p>
+            <div id="aboutModalMedia" style="display:flex; flex-wrap:wrap; gap:.75rem;"></div>
+
+            <div id="aboutLightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.8); justify-content:center; align-items:center; z-index:1100;">
+                <button id="aboutPrevBtn" style="position:absolute; left:1rem; background:none; border:none; font-size:2rem; color:#fff; cursor:pointer;">&lt;</button>
+                <img id="aboutLightboxImg" style="max-width:82%; max-height:82%; border-radius:8px;" alt=""/>
+                <button id="aboutNextBtn" style="position:absolute; right:1rem; background:none; border:none; font-size:2rem; color:#fff; cursor:pointer;">&gt;</button>
+                <button id="aboutCloseLightbox" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.5rem; color:#fff; cursor:pointer;">&times;</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+    // About-page-only modal logic
+    document.addEventListener('DOMContentLoaded', function(){
+        const cards = document.querySelectorAll('.about-card');
+        const modal = document.getElementById('aboutModal');
+        const closeModal = document.getElementById('aboutCloseModal');
+        const modalTitle = document.getElementById('aboutModalTitle');
+        const modalDescription = document.getElementById('aboutModalDescription');
+        const modalMedia = document.getElementById('aboutModalMedia');
+        const lightbox = document.getElementById('aboutLightbox');
+        const lightboxImg = document.getElementById('aboutLightboxImg');
+        const prevBtn = document.getElementById('aboutPrevBtn');
+        const nextBtn = document.getElementById('aboutNextBtn');
+        const closeLightbox = document.getElementById('aboutCloseLightbox');
+
+        let currentImages = [];
+        let currentIndex = 0;
+
+        function openModal() {
+            modal.style.display = 'flex';
+            document.body.classList.add('about-modal-open');
+        }
+        function hideModal() {
+            modal.style.display = 'none';
+            document.body.classList.remove('about-modal-open');
+            modalMedia.querySelectorAll('iframe, video').forEach(el => el.remove());
+        }
+        function openLightbox(images, index){
+            currentImages = images;
+            currentIndex = index;
+            lightboxImg.src = images[index] || '';
+            lightbox.style.display = 'flex';
+        }
+        function closeLightboxFn(){ lightbox.style.display = 'none'; }
+
+        cards.forEach(card => {
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            card.addEventListener('keypress', (e)=>{ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }});
+            card.addEventListener('click', () => {
+                const title = (card.querySelector('h3')?.textContent || '').trim();
+                const details = (card.querySelector('p')?.innerHTML || '').trim();
+                modalTitle.textContent = title;
+                modalDescription.innerHTML = details;
+                modalMedia.innerHTML = '';
+
+                let mediaItems = [];
+                try{ if(card.dataset.media) mediaItems = JSON.parse(card.dataset.media); } catch(e){}
+                const imageList = mediaItems.filter(m=>m.type==='image').map(m=>m.src);
+                mediaItems.forEach(item => {
+                    if (item.type === 'image') {
+                        const img = document.createElement('img');
+                        img.src = item.src; img.alt = item.alt||''; 
+                        img.onclick = () => openLightbox(imageList, imageList.indexOf(item.src));
+                        modalMedia.appendChild(img);
+                    }
+                });
+                openModal();
+            });
+        });
+        closeModal.addEventListener('click', hideModal);
+        modal.addEventListener('click', (e)=>{ if (e.target === modal) hideModal(); });
+        document.addEventListener('keydown', (e)=>{ if(modal.style.display==='flex' && e.key==='Escape') hideModal(); });
+        closeLightbox.addEventListener('click', closeLightboxFn);
+        lightbox.addEventListener('click', (e)=>{ if (e.target === lightbox) closeLightboxFn(); });
+        prevBtn.addEventListener('click', ()=>{ if(currentImages.length){ currentIndex = (currentIndex>0?currentIndex-1:currentImages.length-1); lightboxImg.src=currentImages[currentIndex]; }});
+        nextBtn.addEventListener('click', ()=>{ if(currentImages.length){ currentIndex = (currentIndex<currentImages.length-1?currentIndex+1:0); lightboxImg.src=currentImages[currentIndex]; }});
+        document.addEventListener('keydown', (e)=>{ if(lightbox.style.display==='flex'){ if(e.key==='ArrowLeft') prevBtn.click(); if(e.key==='ArrowRight') nextBtn.click(); if(e.key==='Escape') closeLightboxFn(); }});
+    });
+    </script>
+</body>
+</html>

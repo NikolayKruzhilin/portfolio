@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nikol.AI - Обо мне</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Make About tiles look like the project tiles without reusing the .project-card class (to avoid script.js interference) */
+      .about-card{
+        background: var(--bg-white);
+        border: 1px solid var(--border-gray);
+        border-radius: 12px;
+        padding: 1rem;
+        cursor: pointer;
+        transition: transform .1s ease, box-shadow .1s ease;
+      }
+      .about-card:hover{
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,.06);
+      }
+      .about-card h3{ margin: 0 0 .35rem 0; }
+      .about-card p{ margin: 0; color: var(--text-gray); }
+      /* Thumb grid inside modal */
+      #aboutModalMedia img{
+        width: 110px; height: 110px; object-fit: cover; border-radius: 8px;
+        border: 1px solid var(--border-gray);
+      }
+      #aboutModalMedia img + img{ margin-left: .25rem; }
+      /* Hide scroll bleed on body when modal is open */
+      body.about-modal-open{ overflow: hidden; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">nikolaykruzhilin</div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link" data-key="nav_home" data-page="home">Главная</a></li>
+                    <li><a href="cv.html" class="nav-link" data-key="nav_cv" data-page="cv">Резюме</a></li>
+                    <li><a href="projects.html" class="nav-link" data-key="nav_projects" data-page="projects">Проекты</a></li>
+                    <li><a href="about.html" class="nav-link active" data-key="nav_about" data-page="about">Обо мне</a></li>
+                    <li><a href="contact.html" class="nav-link" data-key="nav_contact" data-page="contact">Контакты</a></li>
+                </ul>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="ru">RU</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="zh">中</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="content-section page active">
+                <h1 data-key="about_title">Обо мне</h1>
+                <p data-key="about_paragraph" style="margin-top:1rem; color:var(--text-gray); line-height:1.6;"></p>
+
+                <!-- Cards area (same grid as projects) -->
+                <div class="project-grid" style="margin-top:1.5rem;">
+
+                    <!-- Karate -->
+                    <div class="about-card"
+                         data-media='[
+                           {"type":"image","src":"imgs/karate1.jpg","alt":"Karate training"},
+                           {"type":"image","src":"imgs/karate_medals.jpg","alt":"Competition medals"},
+                           {"type":"image","src":"imgs/karate_champion.jpg","alt":"IMGKA World Champion"}
+                         ]'>
+                        <h3 data-key="about_card_1_title">Карате</h3>
+                        <p data-key="about_card_1_desc">Мой путь в карате начался в раннем возрасте. Я достиг 2-го дана, звание КМС и стал чемпионом мира по версии IMGKA.</p>
+                    </div>
+
+                    <!-- Street photography -->
+                    <div class="about-card"
+                         data-media='[
+                           {"type":"image","src":"imgs/street1.jpg","alt":"Street photo 1"},
+                           {"type":"image","src":"imgs/street2.jpg","alt":"Street photo 2"},
+                           {"type":"image","src":"imgs/street3.jpg","alt":"Street photo 3"}
+                         ]'>
+                        <h3 data-key="about_card_2_title">Уличная фотография</h3>
+                        <p data-key="about_card_2_desc">Увлечение уличной фотографией позволяет мне захватывать моменты повседневной жизни. Вот некоторые из моих лучших работ.</p>
+                    </div>
+
+                    <!-- Teaching -->
+                    <div class="about-card"
+                         data-media='[
+                           {"type":"image","src":"imgs/teaching1.jpg","alt":"Teaching workshop"},
+                           {"type":"image","src":"imgs/teaching2.jpg","alt":"Cinematography class"}
+                         ]'>
+                        <h3 data-key="about_card_3_title">Преподавание</h3>
+                        <p data-key="about_card_3_desc">Провожу курсы по фотографии и кинематографии, помогая другим развивать свои творческие навыки.</p>
+                    </div>
+
+                    <!-- Volunteering -->
+                    <div class="about-card"
+                         data-media='[
+                           {"type":"image","src":"imgs/volunteer1.jpg","alt":"Animal shelter help"},
+                           {"type":"image","src":"imgs/volunteer2.jpg","alt":"Care for homeless animals"}
+                         ]'>
+                        <h3 data-key="about_card_4_title">Волонтерство</h3>
+                        <p data-key="about_card_4_desc">Я регулярно помогаю в приютах для животных и ухаживаю за бездомными животными.</p>
+                    </div>
+
+                    <!-- #createtodonate -->
+                    <div class="about-card"
+                         data-media='[
+                           {"type":"image","src":"imgs/createtodonate1.jpg","alt":"#createtodonate project"},
+                           {"type":"image","src":"imgs/createtodonate2.jpg","alt":"Donations and creations"}
+                         ]'>
+                        <h3 data-key="about_card_5_title">#createtodonate</h3>
+                        <p data-key="about_card_5_desc">Социальный проект: фотография и видео во благо, чтобы привлекать внимание и собирать помощь.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- About Modal (fully isolated from Projects modal + code) -->
+    <div id="aboutModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1000; justify-content:center; align-items:center;">
+        <div style="background:var(--bg-white); border:1px solid var(--border-gray); border-radius:12px; padding:2rem; max-width: 900px; width:92%; position:relative; box-shadow:0 4px 16px rgba(0,0,0,.12);">
+            <button id="aboutCloseModal" aria-label="Close" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-gray)">&times;</button>
+            <h2 id="aboutModalTitle" style="margin-top:0;"></h2>
+            <p id="aboutModalDescription" style="margin:.25rem 0 1rem 0;"></p>
+            <div id="aboutModalMedia" style="display:flex; flex-wrap:wrap; gap:.75rem;"></div>
+
+            <!-- Lightbox -->
+            <div id="aboutLightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.8); justify-content:center; align-items:center; z-index:1100;">
+                <button id="aboutPrevBtn" style="position:absolute; left:1rem; background:none; border:none; font-size:2rem; color:#fff; cursor:pointer;">&lt;</button>
+                <img id="aboutLightboxImg" style="max-width:82%; max-height:82%; border-radius:8px;" alt=""/>
+                <button id="aboutNextBtn" style="position:absolute; right:1rem; background:none; border:none; font-size:2rem; color:#fff; cursor:pointer;">&gt;</button>
+                <button id="aboutCloseLightbox" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.5rem; color:#fff; cursor:pointer;">&times;</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+    // About-page-only modal + gallery logic (no overlap with Projects page selectors)
+    document.addEventListener('DOMContentLoaded', function(){
+        const cards = document.querySelectorAll('.about-card');
+        const modal = document.getElementById('aboutModal');
+        const closeModal = document.getElementById('aboutCloseModal');
+        const modalTitle = document.getElementById('aboutModalTitle');
+        const modalDescription = document.getElementById('aboutModalDescription');
+        const modalMedia = document.getElementById('aboutModalMedia');
+
+        const lightbox = document.getElementById('aboutLightbox');
+        const lightboxImg = document.getElementById('aboutLightboxImg');
+        const prevBtn = document.getElementById('aboutPrevBtn');
+        const nextBtn = document.getElementById('aboutNextBtn');
+        const closeLightbox = document.getElementById('aboutCloseLightbox');
+
+        let currentImages = [];
+        let currentIndex = 0;
+
+        function openModal() {
+            modal.style.display = 'flex';
+            document.body.classList.add('about-modal-open');
+        }
+        function hideModal() {
+            modal.style.display = 'none';
+            document.body.classList.remove('about-modal-open');
+            // stop any playing video
+            modalMedia.querySelectorAll('iframe, video').forEach(el => el.remove());
+        }
+        function openLightbox(images, index){
+            currentImages = images;
+            currentIndex = index;
+            lightboxImg.src = images[index] || '';
+            lightbox.style.display = 'flex';
+        }
+        function closeLightboxFn(){
+            lightbox.style.display = 'none';
+        }
+
+        // Build thumbs from data-media
+        cards.forEach(card => {
+            // make card accessible like a button
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            card.addEventListener('keypress', (e)=>{
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.click();
+                }
+            });
+
+            card.addEventListener('click', () => {
+                // title/desc follow current language (read visible text instead of static dataset)
+                const title = (card.querySelector('h3')?.textContent || '').trim();
+                const detailsEl = card.querySelector('p');
+                const details = detailsEl ? (detailsEl.innerHTML || detailsEl.textContent || '').trim() : '';
+
+                modalTitle.textContent = title;
+                modalDescription.innerHTML = details;
+                modalMedia.innerHTML = '';
+
+                // parse media JSON
+                let mediaItems = [];
+                try{
+                    if (card.dataset.media) {
+                        mediaItems = JSON.parse(card.dataset.media);
+                    }
+                } catch(e){ console.warn('Invalid data-media JSON on about card', e); }
+
+                // Collect image srcs for lightbox
+                const imageList = mediaItems.filter(m => m.type === 'image').map(m => m.src);
+                // render thumbnails (images + optional video tiles)
+                mediaItems.forEach(item => {
+                    if (item.type === 'image') {
+                        const img = document.createElement('img');
+                        img.src = item.src;
+                        img.alt = item.alt || '';
+                        img.loading = 'lazy';
+                        img.onclick = () => openLightbox(imageList, imageList.indexOf(item.src));
+                        img.onerror = () => {
+                            img.style.opacity = .3;
+                            img.title = 'Missing image';
+                        };
+                        modalMedia.appendChild(img);
+                    } else if (item.type === 'video') {
+                        // For videos we render a clickable thumbnail (or fallback button)
+                        const wrapper = document.createElement('div');
+                        wrapper.style.display = 'inline-flex';
+                        wrapper.style.flexDirection = 'column';
+                        wrapper.style.alignItems = 'center';
+
+                        const thumb = document.createElement('img');
+                        thumb.src = item.thumbnail || '';
+                        thumb.alt = item.alt || 'Video';
+                        thumb.loading = 'lazy';
+                        thumb.onclick = () => {
+                            // clear any existing players
+                            modalMedia.querySelectorAll('iframe, video').forEach(el => el.remove());
+                            const src = item.src || '';
+                            if (src.endsWith('.mp4')) {
+                                const vid = document.createElement('video');
+                                vid.src = src; vid.controls = true; vid.autoplay = true; vid.style.width = '100%';
+                                modalMedia.appendChild(vid);
+                            } else if (src.includes('youtube.com') || src.includes('youtu.be')) {
+                                let id = '';
+                                if (src.includes('watch?v=')) id = src.split('watch?v=')[1].split('&')[0];
+                                else id = src.split('/').pop();
+                                const iframe = document.createElement('iframe');
+                                iframe.src = 'https://www.youtube.com/embed/' + id + '?rel=0&autoplay=1';
+                                iframe.width = '100%'; iframe.height = '420'; iframe.frameBorder = '0';
+                                iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+                                modalMedia.appendChild(iframe);
+                            } else if (src.includes('vimeo.com')) {
+                                const id = src.split('/').pop();
+                                const iframe = document.createElement('iframe');
+                                iframe.src = 'https://player.vimeo.com/video/' + id + '?autoplay=1';
+                                iframe.width = '100%'; iframe.height = '420'; iframe.frameBorder = '0';
+                                iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+                                modalMedia.appendChild(iframe);
+                            }
+                        };
+                        thumb.onerror = () => {
+                            // Fallback simple button if thumbnail missing
+                            wrapper.innerHTML = '<button style="padding:.5rem .75rem; border:1px solid var(--border-gray); border-radius:8px; cursor:pointer;">Play video</button>';
+                            wrapper.querySelector('button').onclick = thumb.onclick;
+                        };
+                        wrapper.appendChild(thumb);
+                        modalMedia.appendChild(wrapper);
+                    }
+                });
+
+                openModal();
+            });
+        });
+
+        // Close handlers
+        closeModal.addEventListener('click', hideModal);
+        modal.addEventListener('click', (e)=>{ if (e.target === modal) hideModal(); });
+        document.addEventListener('keydown', (e)=>{
+            if (modal.style.display === 'flex' && e.key === 'Escape') hideModal();
+        });
+
+        // Lightbox navigation
+        closeLightbox.addEventListener('click', closeLightboxFn);
+        lightbox.addEventListener('click', (e)=>{ if (e.target === lightbox) closeLightboxFn(); });
+        prevBtn.addEventListener('click', ()=>{
+            if (!currentImages.length) return;
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : currentImages.length - 1;
+            lightboxImg.src = currentImages[currentIndex];
+        });
+        nextBtn.addEventListener('click', ()=>{
+            if (!currentImages.length) return;
+            currentIndex = (currentIndex < currentImages.length - 1) ? currentIndex + 1 : 0;
+            lightboxImg.src = currentImages[currentIndex];
+        });
+        document.addEventListener('keydown', (e)=>{
+            if (lightbox.style.display === 'flex') {
+                if (e.key === 'ArrowLeft') prevBtn.click();
+                if (e.key === 'ArrowRight') nextBtn.click();
+                if (e.key === 'Escape') closeLightboxFn();
+            }
+        });
+    });
+    </script>
+</body>
+</html>

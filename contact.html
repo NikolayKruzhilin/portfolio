@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikolay Kruzhilin | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">nikolaykruzhilin</div>
+                            <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link" data-key="nav_home" data-page="home">Главная</a></li>
+                    <li><a href="cv.html" class="nav-link" data-key="nav_cv" data-page="cv">Резюме</a></li>
+                    <li><a href="projects.html" class="nav-link" data-key="nav_projects" data-page="projects">Проекты</a></li>
+                    <li><a href="about.html" class="nav-link" data-key="nav_about" data-page="about">Обо мне</a></li>
+                    <li><a href="contact.html" class="nav-link active" data-key="nav_contact" data-page="contact">Контакты</a></li>
+                </ul>
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="ru">RU</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="zh">中</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page active" id="contact">
+            <div class="content-section">
+                <h1 data-key="contact_title">Контактная информация</h1>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <h3 data-key="contact_email">Электронная почта</h3>
+                        <p>nikolaykruzhilin@protonmail.com</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3 data-key="contact_phone">Телефон</h3>
+                        <p>+7 (000) 000-00-00</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>GitHub</h3>
+                        <p>github.com/NikolayKruzhilin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

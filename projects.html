@@ -1,0 +1,232 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nikol.AI - Проекты</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">nikolaykruzhilin</div>
+                                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link" data-key="nav_home" data-page="home">Главная</a></li>
+                    <li><a href="cv.html" class="nav-link" data-key="nav_cv" data-page="cv">Резюме</a></li>
+                    <li><a href="projects.html" class="nav-link active" data-key="nav_projects" data-page="projects">Проекты</a></li>
+                    <li><a href="about.html" class="nav-link" data-key="nav_about" data-page="about">Обо мне</a></li>
+                    <li><a href="contact.html" class="nav-link" data-key="nav_contact" data-page="contact">Контакты</a></li>
+                </ul>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="ru">RU</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="zh">中</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="content-section page active">
+                <h1 data-key="projects_title">Проекты</h1>
+                
+                <div class="project-grid">
+                    <div class="project-card" data-project="project1">
+                        <h3 data-key="project1_title"></h3>
+                        <p data-key="project1_desc"></p>
+                    </div>
+                    <div class="project-card" data-project="project2">
+                        <h3 data-key="project2_title"></h3>
+                        <p data-key="project2_desc"></p>
+                    </div>
+                    <div class="project-card" data-project="project3">
+                        <h3 data-key="project3_title"></h3>
+                        <p data-key="project3_desc"></p>
+                    </div>
+                    <div class="project-card" data-project="project4">
+                        <h3 data-key="project4_title"></h3>
+                        <p data-key="project4_desc"></p>
+                    </div>
+                    <div class="project-card" data-project="project5">
+                        <h3 data-key="project5_title"></h3>
+                        <p data-key="project5_desc"></p>
+                    </div>
+                    <div class="project-card" data-project="project6">
+                        <h3 data-key="project6_title"></h3>
+                        <p data-key="project6_desc"></p>
+                    </div>
+                    <div class="project-card" data-project="project7">
+                        <h3 data-key="project7_title"></h3>
+                        <p data-key="project7_desc"></p>
+                    </div>
+                    <div class="project-card" data-project="project8">
+                        <h3 data-key="project8_title"></h3>
+                        <p data-key="project8_desc"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Modal -->
+            <div id="projectModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; justify-content: center; align-items: center;">
+                <div style="background: var(--bg-white); border: 1px solid var(--border-gray); border-radius: 12px; padding: 2rem; max-width: 800px; width: 90%; position: relative; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                    <button id="closeModal" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-gray);">&times;</button>
+                    <h2 id="modalTitle"></h2>
+                    <p id="modalDescription"></p>
+                    <div id="modalMedia" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;"></div>
+                    <div id="lightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center; z-index: 1100;">
+                        <button id="prevBtn" style="position: absolute; left: 1rem; background: none; border: none; font-size: 2rem; color: white; cursor: pointer;">&lt;</button>
+                        <img id="lightboxImg" style="max-width: 80%; max-height: 80%;" />
+                        <button id="nextBtn" style="position: absolute; right: 1rem; background: none; border: none; font-size: 2rem; color: white; cursor: pointer;">&gt;</button>
+                        <button id="closeLightbox" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; color: white; cursor: pointer;">&times;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+
+    <script>
+    // Enhance project modal media handling: support Vimeo, YouTube and MP4 playback when clicking thumbnails.
+    document.addEventListener('DOMContentLoaded', function(){
+        const modalMedia = document.getElementById('modalMedia');
+        if (!modalMedia) return;
+        // Delegate clicks inside modalMedia
+        modalMedia.addEventListener('click', function(e){
+            const target = e.target;
+            if (target.tagName !== 'IMG') return;
+            const videoSrc = target.dataset.videoSrc || target.getAttribute('data-src') || target.src || '';
+            if (!videoSrc) return;
+            // Clear previous players
+            modalMedia.querySelectorAll('iframe, video').forEach(el => el.remove());
+            // Decide type
+            if (videoSrc.endsWith('.mp4')) {
+                const vid = document.createElement('video');
+                vid.src = videoSrc;
+                vid.controls = true;
+                vid.autoplay = true;
+                vid.style.width = '100%';
+                modalMedia.appendChild(vid);
+            } else if (videoSrc.includes('youtube.com') || videoSrc.includes('youtu.be')) {
+                // convert to embed URL
+                let id = '';
+                if (videoSrc.includes('watch?v=')) {
+                    id = videoSrc.split('watch?v=')[1].split('&')[0];
+                } else {
+                    id = videoSrc.split('/').pop();
+                }
+                const iframe = document.createElement('iframe');
+                iframe.src = 'https://www.youtube.com/embed/' + id + '?rel=0&autoplay=1';
+                iframe.width = '100%';
+                iframe.height = '400';
+                iframe.frameBorder = '0';
+                iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+                modalMedia.appendChild(iframe);
+            } else if (videoSrc.includes('vimeo.com')) {
+                const id = videoSrc.split('/').pop();
+                const iframe = document.createElement('iframe');
+                iframe.src = 'https://player.vimeo.com/video/' + id + '?autoplay=1';
+                iframe.width = '100%';
+                iframe.height = '400';
+                iframe.frameBorder = '0';
+                iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+                modalMedia.appendChild(iframe);
+            }
+        });
+
+        // When modal is opened, ensure thumbnails have data-src for video items if dataset provided
+        const projectCards = document.querySelectorAll('.project-card');
+        projectCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // After the modal populates, mark thumbs that represent videos with data-video-src attributes
+                setTimeout(() => {
+                    modalMedia.querySelectorAll('img').forEach(img => {
+                        // If img src equals thumbnail in dataset.media and there is a video item with that thumbnail, mark it
+                        const parentCard = card;
+                        if (!parentCard.dataset.media) return;
+                        try {
+                            const mediaItems = JSON.parse(parentCard.dataset.media);
+                            const vidItem = mediaItems.find(m => m.type === 'video' && (m.thumbnail === img.src || img.src.endsWith(m.thumbnail) || img.alt === (m.alt || '')));
+                            if (vidItem) {
+                                img.dataset.videoSrc = vidItem.src;
+                            }
+                        } catch (e) { /* ignore */ }
+                    });
+                }, 10);
+            });
+        });
+    });
+    
+        // Insert localized video link if available for this project
+        (function insertLocalizedVideoLink(card) {
+            try {
+                var langBtn = document.querySelector('.lang-btn.active') || document.querySelector('.lang-btn[data-lang="ru"]');
+                var currentLang = langBtn ? langBtn.getAttribute('data-lang') : 'ru';
+                // project id like 'project1'
+                var proj = card.getAttribute('data-project') || '';
+                if (!proj) return;
+                var videoKey = proj + '_video_url';
+                var videoUrl = (window.translations && translations[currentLang] && translations[currentLang][videoKey]) ? translations[currentLang][videoKey] : null;
+                if (!videoUrl) return;
+                // create or update link element under modalDescription
+                var existing = document.getElementById('projectVideoLink');
+                if (existing) existing.remove();
+                var p = document.createElement('p');
+                p.id = 'projectVideoLink';
+                var a = document.createElement('a');
+                a.href = videoUrl;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                var linkText = (window.translations && translations[currentLang] && translations[currentLang]['project_video_link']) ? translations[currentLang]['project_video_link'] : 'See the video here';
+                a.textContent = linkText;
+                p.appendChild(a);
+                modalDescription.parentNode.insertBefore(p, modalMedia.nextSibling);
+            } catch (e) {
+                console.error('insertLocalizedVideoLink error', e);
+            }
+        })(card);
+
+</script>
+</body>
+</html>
