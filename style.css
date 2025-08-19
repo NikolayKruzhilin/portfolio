@@ -479,3 +479,45 @@ main {
 #cv [data-key="cv_exp_desc"] p {
     margin-bottom: 1rem;
 }
+
+
+/* === Responsive adjustments === */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: var(--bg-white);
+    padding: 1rem;
+    border: 1px solid var(--border-gray);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 999;
+  }
+  .nav-links.active {
+    display: flex;
+  }
+  .hamburger {
+    display: block;
+    font-size: 1.75rem;
+    cursor: pointer;
+    user-select: none;
+    background: none;
+    border: none;
+    color: var(--text-dark);
+  }
+  .project-grid,
+  .contact-grid,
+  .skill-grid {
+    display: grid;
+    grid-template-columns: 1fr !important;
+  }
+}
+.hamburger { display: none; }
+@media (max-width: 480px) {
+  .container { padding: 0 12px; }
+}
+.page.active { overflow-y: auto; }
